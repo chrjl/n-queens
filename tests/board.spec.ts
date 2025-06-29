@@ -1,5 +1,5 @@
 import assert from 'assert';
-import Board from '../src/board';
+import Board from '../lib/board';
 
 describe('Add pieces to n=2 board and test whether the board is valid', function () {
   const board = new Board(2);

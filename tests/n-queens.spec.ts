@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 
-import NQueens from '../src/n-queens';
-import Board from '../src/board';
+import NQueens from '../lib/n-queens';
+import Board from '../lib/board';
 
 describe('N Queens solutions', function () {
   const answers = [1, 1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200];
