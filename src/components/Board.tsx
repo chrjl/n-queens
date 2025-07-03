@@ -12,24 +12,34 @@ const Cell = ({ dark, occupied }: CellProps) => {
         'w-8',
         'h-8',
         'text-center',
-        dark ? 'bg-black' : 'bg-white'
+        dark ? 'bg-black' : 'bg-white',
+        occupied &&
+          (dark
+            ? "bg-[url('/img/queen-white.svg')]"
+            : "bg-[url('/img/queen-black.svg')]")
       )}
-    >
-      {occupied ? <span className="p-auto text-red-400">x</span> : null}
-    </div>
+    ></div>
   );
 };
 
 interface BoardProps {
   n: number;
+  pieces?: number[][];
 }
 
-const Board = ({ n }: BoardProps) => {
+const Board = ({ n, pieces }: BoardProps) => {
   const cells = Array.from(Array(n), () => Array(n));
+  const piecesSet = new Set(pieces?.map(([i, j]) => `${i},${j}`));
 
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
-      cells[i][j] = <Cell key={i + ',' + j} dark={(i + j) % 2 === 0} />;
+      cells[i][j] = (
+        <Cell
+          key={i + ',' + j}
+          dark={(i + j) % 2 === 0}
+          occupied={piecesSet.has(`${i},${j}`)}
+        />
+      );
     }
   }
 
