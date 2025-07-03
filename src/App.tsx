@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 
 import Board from './components/Board';
+import SolutionGenerator from './components/SolutionGenerator';
+
+import type { Solution } from '../lib/n-queens';
 
 interface NValueSetterProps {
   n: number;
@@ -70,12 +73,22 @@ const NValueSetter = ({ n, setN }: NValueSetterProps) => {
 
 const App = () => {
   const [n, setN] = useState<number>(1);
+  const [current, setCurrent] = useState<Solution>([]);
+
+  useEffect(() => {
+    setCurrent([]);
+  }, [n]);
 
   return (
     <div className="flex flex-col gap-8">
       <NValueSetter n={n} setN={setN} />
+
+      <div className="flex flex-row justify-center">
+        <SolutionGenerator n={n} setSolution={setCurrent} />
+      </div>
+
       <div className="w-full h-fit min-h-24 bg-white flex justify-center-safe overflow-auto">
-        <Board n={n} />
+        <Board n={n} pieces={current.map((col, row) => [row, col])} />
       </div>
     </div>
   );
