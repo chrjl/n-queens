@@ -1,15 +1,14 @@
+/** Column index where a queen resides, for each row */
+export type Solution = number[];
+
 export default class NQueens {
   n: number;
-  solutions: [number, number][][];
 
   constructor(n: number) {
     this.n = n;
-    this.solutions = [];
   }
 
-  solve(): [number, number][][] {
-    this.solutions = [];
-
+  static *generateSolutions(n: number): Generator<Solution> {
     /** Columns of placed queens. current[i] refers to a queen placed in the i-th row */
     const current: number[] = [];
 
@@ -29,31 +28,35 @@ export default class NQueens {
       antiDiags: new Set(),
     };
 
+    yield* insert();
+    return [];
+
     /** Whether a queen can be placed at (row, col) without clashing the existing pieces */
-    const isGoodPosition = (row: number, col: number) =>
-      !(
+    function isGoodPosition(row: number, col: number): boolean {
+      return !(
         occupied.cols.has(col) ||
         occupied.diags.has(col - row) ||
         occupied.antiDiags.has(row + col)
       );
+    }
 
     /** Backtracking */
-    const insert = () => {
-      if (current.length === this.n) {
-        this.solutions.push(current.map((val, i) => [i, val]));
+    function* insert(): Generator<Solution> {
+      if (current.length === n) {
+        yield [...current];
         return;
       }
 
       const row = current.length - 1;
 
-      for (let col = 0; col < this.n; col++) {
+      for (let col = 0; col < n; col++) {
         if (isGoodPosition(row, col)) {
           current.push(col);
           occupied.cols.add(col);
           occupied.diags.add(col - row);
           occupied.antiDiags.add(row + col);
 
-          insert();
+          yield* insert();
 
           current.pop();
           occupied.cols.delete(col);
@@ -61,10 +64,6 @@ export default class NQueens {
           occupied.antiDiags.delete(row + col);
         }
       }
-    };
-
-    insert();
-
-    return this.solutions;
+    }
   }
 }
