@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import clsx from 'clsx';
 
 interface CellProps {
@@ -5,7 +6,7 @@ interface CellProps {
   occupied?: boolean;
 }
 
-const Cell = ({ dark, occupied }: CellProps) => {
+const Cell = memo(({ dark, occupied }: CellProps) => {
   return (
     <div
       className={clsx(
@@ -20,7 +21,7 @@ const Cell = ({ dark, occupied }: CellProps) => {
       )}
     ></div>
   );
-};
+});
 
 interface BoardProps {
   n: number;
