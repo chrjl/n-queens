@@ -3,6 +3,8 @@ import clsx from 'clsx';
 
 import Board from './components/Board';
 import SolutionGenerator from './components/SolutionGenerator';
+import Dialog from './components/Dialog';
+import info from './assets/info.svg';
 
 import type { Solution } from '../lib/n-queens';
 
@@ -79,9 +81,26 @@ const App = () => {
     setCurrent([]);
   }, [n]);
 
+  const openModal = (element?: HTMLElement | null) => {
+    if (!(element instanceof HTMLDialogElement)) {
+      return;
+    }
+
+    element.showModal();
+  };
+
   return (
     <div className="flex flex-col gap-8">
-      <NValueSetter n={n} setN={setN} />
+      <div className="flex flex-row justify-center items-center gap-x-8">
+        <NValueSetter n={n} setN={setN} />
+
+        <button
+          className="group btn btn-circle btn-xs btn-info btn-outline border-2 border-black dark:border-white hover:border-0"
+          onClick={() => openModal(document.getElementById('info'))}
+        >
+          <img className="h-1/2 dark:invert group-hover:invert group-hover:dark:invert-0" src={info} />
+        </button>
+      </div>
 
       <div className="flex flex-row justify-center">
         <SolutionGenerator n={n} setSolution={setCurrent} />
@@ -90,6 +109,13 @@ const App = () => {
       <div className="w-full h-fit min-h-24 bg-white flex justify-center-safe overflow-auto">
         <Board n={n} pieces={current.map((col, row) => [row, col])} />
       </div>
+
+      <Dialog id="info">
+        <p className="py-4">
+          Verify the validity of a displayed solution by clicking on a queen to
+          highlight its row, column, and diagonals.
+        </p>
+      </Dialog>
     </div>
   );
 };
