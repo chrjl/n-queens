@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import '@iframe-resizer/child';
 
 import setTheme from './scripts/set-theme';
 
