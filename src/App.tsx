@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 
+import setTheme from './scripts/set-theme';
+
 import Board from './components/Board';
 import SolutionGenerator from './components/SolutionGenerator';
 import Dialog from './components/Dialog';
@@ -89,6 +91,8 @@ const App = () => {
     element.showModal();
   };
 
+  setTheme();
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-row justify-center items-center gap-x-8">
@@ -98,7 +102,10 @@ const App = () => {
           className="group btn btn-circle btn-xs btn-info btn-outline border-2 border-black dark:border-white hover:border-0"
           onClick={() => openModal(document.getElementById('info'))}
         >
-          <img className="h-1/2 dark:invert group-hover:invert group-hover:dark:invert-0" src={info} />
+          <img
+            className="h-1/2 dark:invert group-hover:invert group-hover:dark:invert-0"
+            src={info}
+          />
         </button>
       </div>
 
